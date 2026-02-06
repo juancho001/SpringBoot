@@ -1,6 +1,5 @@
 package com.companies.controller;
 
-import com.companies.dto.CompanyDTO;
 import com.companies.entities.Company;
 import com.companies.services.CompanyService;
 import io.swagger.v3.oas.annotations.Operation;
