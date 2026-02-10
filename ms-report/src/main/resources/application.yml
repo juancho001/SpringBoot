@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: ms-report
+  profiles:
+    active: prod
+  config:
+    import: optional:configserver:http://localhost:8888
+report:
+  template: "{company} was founded in {foundation_date} by {founder}. the website for this company are {website_sites}"
