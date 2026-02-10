@@ -35,14 +35,14 @@ public class CompanyController {
     }
 
     @Operation(summary = "Update company")
-    @PutMapping(path = "name")
+    @PutMapping(path = "{name}")
     public ResponseEntity<Company> updateCompany(@RequestBody Company company, @PathVariable String name){
         log.info("Upate: company {}", name);
         return ResponseEntity.ok(this.companyService.updateCompany(company, name));
     }
 
     @Operation(summary = "Delete company")
-    @DeleteMapping(path = "name")
+    @DeleteMapping(path = "{name}")
     public ResponseEntity<?> deleteCompany(@PathVariable String name){
         log.info("Delete: company {}", name);
         this.companyService.deleteCompany(name);
