@@ -11,12 +11,12 @@ import java.util.Optional;
 @FeignClient(name = "ms-companies")
 @LoadBalancerClient(name = "ms-companies", configuration = LoadBalancerConfiguration.class)
 public interface CompaniesRepository {
-    @GetMapping(path = "/ms-companies/company/{name}")
+    @GetMapping(path = "/company/{name}")
     Optional<Company> getByName(@PathVariable String name);
 
-    @PostMapping(path = "/ms-companies/company")
+    @PostMapping(path = "/company")
     Optional<Company> postByName(@RequestBody Company company);
 
-    @DeleteMapping(path = "/ms-companies/company/{name}")
+    @DeleteMapping(path = "/company/{name}")
     void deleteByName(@PathVariable String name);
 }

@@ -3,10 +3,12 @@ package com.reports.services.Impl;
 import com.reports.dto.Company;
 import com.reports.dto.WebSite;
 import com.reports.helpers.ReportHelpers;
+import com.reports.repositories.CompaniesFallbackRepository;
 import com.reports.repositories.CompaniesRepository;
 import com.reports.services.ReportService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,12 +22,15 @@ public class ReportServiceImpl implements ReportService {
 
     private final CompaniesRepository companiesRepository;
     private final ReportHelpers reportHelpers;
+    private final CompaniesFallbackRepository companiesFallbackRepository;
+    private final CircuitBreakerFactory circuitBreakerFactory;
 
 //    private final EurekaClient eurekaClient;
 
     @Override
     public String makeReport(String name) {
-        return reportHelpers.readTemplate(companiesRepository.getByName(name).orElseThrow(() -> new RuntimeException("Company not found")));
+        var circuitBreaker = this.circuitBreakerFactory.create("companies-circuitbreaker");
+        return circuitBreaker.run(() -> this.makeReportMain(name), throwable -> this.makeReportFallback(name, throwable));
     }
 
     @Override
@@ -46,5 +51,15 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public void deleteReport(String name) {
         this.companiesRepository.deleteByName(name);
+    }
+
+
+    private String makeReportMain(String name) {
+        return reportHelpers.readTemplate(this.companiesRepository.getByName(name).orElseThrow(() -> new RuntimeException("Company not found")));
+    }
+
+    private String makeReportFallback(String name, Throwable throwable) {
+        log.warn(throwable.getMessage());
+        return reportHelpers.readTemplate(this.companiesFallbackRepository.getByName(name));
     }
 }

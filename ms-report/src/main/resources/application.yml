@@ -7,3 +7,6 @@ spring:
     import: optional:configserver:http://localhost:8888
 report:
   template: "{company} was founded in {foundation_date} by {founder}. the website for this company are {website_sites}"
+
+fallback:
+  uri: "http://localhost:8787/company/{name}"
