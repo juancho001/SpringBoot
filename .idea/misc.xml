@@ -8,6 +8,8 @@
         <option value="$PROJECT_DIR$/ms-eureka/pom.xml" />
         <option value="$PROJECT_DIR$/ms-configserver/pom.xml" />
         <option value="$PROJECT_DIR$/ms-report/pom.xml" />
+        <option value="$PROJECT_DIR$/ms-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/ms-companies-fallback/pom.xml" />
       </list>
     </option>
   </component>
