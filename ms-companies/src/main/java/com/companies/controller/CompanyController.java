@@ -22,7 +22,16 @@ public class CompanyController {
 
     @Operation(summary = "Get company by name")
     @GetMapping(path = "{name}")
+
+
     public ResponseEntity<Company> getCompany(@PathVariable String name){
+        if(name.equals("Microsoft")){
+            try{
+                Thread.sleep(7000);
+            }catch(InterruptedException e){
+                log.info("Thread interrupted", e);
+            }
+        }
         log.info("Get: company {}", name);
         return ResponseEntity.ok(this.companyService.readCompany(name));
     }

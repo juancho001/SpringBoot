@@ -21,11 +21,13 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public Company createCompany(Company company) {
-        company.getWebSite().forEach(webSite -> {
-            if(Objects.isNull(webSite.getCategory())){
-                webSite.setCategory(Category.NONE);
-            }
-        });
+        if (Objects.nonNull(company.getWebSite())) {
+            company.getWebSite().forEach(webSite -> {
+                if (Objects.isNull(webSite.getCategory())) {
+                    webSite.setCategory(Category.NONE);
+                }
+            });
+        }
         return this.companyRepository.save(company);
     }
 
